@@ -3,29 +3,52 @@
 <head>
     <title>MLBB Redirector</title>
 </head>
-<body style="background-color: #121212; color: white; display: flex; align-items: center; justify-content: center; height: 100vh; font-family: sans-serif; text-align: center;">
+<body style="background-color: #121212; color: white; display: flex; align-items: center; justify-content: center; height: 100vh; font-family: sans-serif; text-align: center; margin: 0;">
 
-    <div id="status">Memproses...</div>
+    <div id="status">Memeriksa Waktu...</div>
 
     <script>
-        function checkTime() {
-            // Mengambil waktu sekarang berdasarkan zona waktu lokal perangkat
+        function jalankanRedirect() {
+            // --- CUSTOM JADWAL ---
+            const jamBuka = 18;   
+            const menitBuka = 40; 
+            
+            const jamTutup = 8;   
+            const menitTutup = 0; 
+            // ----------------------------------
+
             const sekarang = new Date();
-            const jam = sekarang.getHours();
+            const jamAktual = sekarang.getHours();
+            const menitAktual = sekarang.getMinutes();
+            
+            const waktuSekarang = (jamAktual * 60) + menitAktual;
+            const jadwalBuka = (jamBuka * 60) + menitBuka;
+            const jadwalTutup = (jamTutup * 60) + menitTutup;
+
+            // Format teks untuk tampilan di layar
+            const formatWaktu = (h, m) => h.toString().padStart(2, '0') + ":" + m.toString().padStart(2, '0');
+            
+            const teksJamBuka = formatWaktu(jamBuka, menitBuka);
+            const teksJamTutup = formatWaktu(jamTutup, menitTutup);
+            const teksWaktuSekarang = formatWaktu(jamAktual, menitAktual);
+
             const statusDiv = document.getElementById('status');
 
-            // Logika: Jam 08:00 sampai 16:59 (8-16) dilarang
-            if (jam >= 8 && jam < 17) {
-                statusDiv.innerHTML = "<h2>Akses Ditutup</h2><p>Silakan scan kembali nanti pada jam 17:00 WIB.</p>";
+            // Logika pengecekan: Jika waktu sekarang berada di antara jam tutup dan jam buka
+            if (waktuSekarang >= jadwalTutup && waktuSekarang < jadwalBuka) {
+                statusDiv.innerHTML = `
+                    <h2 style="color: #ff4d4d;">AKSES DITUTUP</h2>
+                    <p>Waktu saat ini: <b>${teksWaktuSekarang}</b></p>
+                    <p>Jadwal akses ditutup: <b>${teksJamTutup} s/d ${teksJamBuka} WIB</b></p>
+                    <p>Silakan scan kembali mulai pukul <b>${teksJamBuka} WIB</b>.</p>
+                `;
             } else {
-                statusDiv.innerHTML = "<h2>Membuka Mobile Legends...</h2>";
-                // Mengalihkan ke aplikasi
+                statusDiv.innerHTML = "<h2>WAKTU SESUAI</h2><p>Membuka Mobile Legends...</p>";
                 window.location.href = "mobilelegends://app";
             }
         }
 
-        // Jalankan fungsi setelah halaman dimuat
-        window.onload = checkTime;
+        window.onload = jalankanRedirect;
     </script>
 </body>
 </html>
