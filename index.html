@@ -10,7 +10,7 @@
     <script>
         function jalankanRedirect() {
             // --- BAGIAN YANG BISA ANDA EDIT ---
-            const jamBuka = 10;   
+            const jamBuka = 17;   
             const menitBuka = 00; 
             const jamTutup = 8;   
             const menitTutup = 0; 
@@ -49,7 +49,7 @@
                 const interval = setInterval(function() {
                     statusDiv.innerHTML = `
                         <h2 style="color: #4CAF50;">WAKTU SESUAI</h2>
-                        <p>Membuka Mobile Legends dalam...</p>
+                        <p>Membuka aplikasi dalam...</p>
                         <h1 style="font-size: 80px; margin: 10px 0;">${hitungan}</h1>
                     `;
                     
@@ -57,11 +57,11 @@
                         clearInterval(interval);
                         statusDiv.innerHTML = "<h2>Membuka Aplikasi...</h2>";
                         // Cara yang lebih kompatibel untuk iOS
-                        window.location.assign("roblox://app");
+                        window.location.assign("mobilelegends://app");
     
                         // Backup jika .assign gagal dalam 500ms
                         setTimeout(function() {
-                        window.location.href = "roblox://app";
+                        window.location.href = "mobilelegends://app";
                         }, 500);
                     }
                     
